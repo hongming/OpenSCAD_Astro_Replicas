@@ -9,7 +9,7 @@ main_tube_lenght=590;
 main_tube_diameter=300;
 
 //显示
-RASA11();
+//RASA11();
 
 //定义Module
 module RASA11(){
