@@ -1,4 +1,4 @@
-$fn=50;
+$fn=200;
 //////////////////////////////参数
 //底座
 base_tube_length=850;
@@ -26,19 +26,26 @@ tail_for_telescope_cut2_length=100;
 tail_for_telescope_cut3_thickness=20;
 tail_for_telescope_angle=0;
 
+//////////////////////////////外部控件
+translate([-340+15,0,wing_height])
+rotate([0,0,180])
+color("red")
+import("csf-25-xxx-2uh.stl");
 
-
+translate([-340-170/2+5,5,wing_height-86/2])
+color("red")
+import("86CME120.stl");
 
 //////////////////////////////基本代码
 
 
 rotate([0,270,0]){
 
+
 mount_base();
 
  translate([0,0,-340-wing_move_length])
 rotate([0,90,0])
-        color("red")
 holder();
 
  translate([0,0,340+wing_move_length])
@@ -62,8 +69,11 @@ holder_with_motor();
    
         cube([10,base_tube_dimeter,base_tube_dimeter],center=true);
      
+
      difference(){
+              color("black")
 cylinder(h=base_tube_length,d=base_tube_dimeter,center=true,$fn=200);
+              color("grey")
 cylinder(h=base_tube_length+10,d=base_tube_dimeter-2*base_tube_thickness,center=true,$fn=200);
  
     //上方孔
@@ -135,12 +145,12 @@ cube([base_tube_dimeter,base_hole_cube_up_width,base_hole_cube_up_length],center
         mirror([0,0,1])
         rotate([0,0,base_hole_cylinder_angle]){
      translate([-20-10/2,-base_tube_dimeter/2,-1*wing_move_length])
-                     color("green")
+                     color("grey")
  wing();}
              //支架
      rotate([0,0,-1*base_hole_cylinder_angle]){
      translate([-20-10/2,5+base_tube_dimeter/2,-1*wing_move_length])
-                  color("blue")
+                  color("grey")
  wing();}
                     //支架镜像
     mirror([0,0,1])
@@ -252,13 +262,11 @@ module holder(){
         }
     
     translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    color("red")
     circle(d=160);
    }
    translate([0,0,-50])
    linear_extrude(50){
            translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    color("red")
     circle(d=120);
    }
 
@@ -292,30 +300,30 @@ module holder_with_motor(){
     circle(d=160);
    }
 
-   translate([0,0,-20]){
-   linear_extrude(20){
+    color("silver")
+   translate([0,0,30-2]){
+   linear_extrude(5){
            translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    color("red")
-    circle(d=200);
+    circle(d=wing_wall_top_width);
 
    }}
-   
+  /* 
+       color("silver")
    translate([0,0,-40]){
    linear_extrude(20){
            translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    color("red")
-    circle(d=500);
-
-   }}
-   
-   
-      translate([0,0,-50]){
-   linear_extrude(10){
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    color("red")
     circle(d=200);
 
    }}
+  */ 
+       color("silver")
+      translate([0,0,-50]){
+   linear_extrude(20){
+           translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
+    circle(d=100);
+
+   }}
+
    
       translate([0,0,-40]){
  
