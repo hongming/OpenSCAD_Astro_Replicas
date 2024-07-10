@@ -4,19 +4,47 @@ include <config.scad>;
 include <modules.scad>;
 
 
+
 //////////////////////////////基本代码
  
- 
+
  
 //上方望远镜
     //旋转底座
      rotate([0,270,0]){
      mount_base();
-         
-//        translate([300,0,0])
-//        rotate([0,90,0])
-//        rasa14(); 
-   
+ 
+ //RASA整列   
+
+translate([wing_height,0,0])
+rasa11_array();
+
+/*
+         translate([0,330/2+10,330/2+10])
+        translate([300,0,0])
+        rotate([0,90,0])
+
+        rasa11(); 
+
+         translate([0,330/2+10,-330/2-10])
+        translate([300,0,0])
+        rotate([0,90,0])
+        rasa11(); 
+
+
+         translate([0,-330/2-10,330/2+10])
+        translate([300,0,0])
+        rotate([0,90,0])
+        rasa11(); 
+
+         translate([0,-330/2-10,-330/2-10])
+        translate([300,0,0])
+        rotate([0,90,0])
+        rasa11(); 
+
+*/
+
+ //RASA整列   
     
      translate([0,0,-340-wing_move_length])
     rotate([0,90,0])
@@ -30,29 +58,6 @@ include <modules.scad>;
 
          
    } 
- 
- 
-    //叉臂上的
-    translate([-340-20+5,0,wing_height])
-    rotate([0,0,180]){
-    color("grey")
-    csf_25_100_2uh();
-            translate([30,0,-30])
-        cube([10,170,170],center=true);
-        }
-
-
-    translate([-340-170/2-25,5,wing_height-86/2]){
-    color("black")
-    86cme85_180();
-        }
- 
-    translate([-340+15+5,0,wing_height])
-    rotate([0,90,180])
-    color("blue")
-    XRU8022_cross_roller_bearing();
-     
- 
   
  
 //底部支架
@@ -76,9 +81,10 @@ include <modules.scad>;
  
         }
 
+ 
     translate([0,0,-155-95+5-50]) 
         tri_mount();
-    
+  
        
  
  

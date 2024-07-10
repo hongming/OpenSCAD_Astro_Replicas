@@ -16,7 +16,7 @@
     equilateral_triangle_lenth=100;
 
     //上支架平移
-    wing_move_length=-10;
+    wing_move_length=80;
 
     //模块 -  安装望远镜的鸠尾槽
     tail_for_telescope_width=160;
@@ -25,3 +25,6 @@
     tail_for_telescope_cut2_length=100;
     tail_for_telescope_cut3_thickness=20;
     tail_for_telescope_angle=0;
+    
+    //望远镜阵列
+              rasa_array_angel=60;

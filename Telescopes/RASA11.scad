@@ -1,4 +1,4 @@
-$fn=400;
+//$fn=400;
 
 use <../EAFs/ZWO-EAF-2.scad>;
 use <../Cameras/asi2600MC.scad>;

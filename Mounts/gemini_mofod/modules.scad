@@ -1,6 +1,6 @@
 /////////////////////////////Modules
- 
- 
+ include <config.scad>;
+ include <../../Telescopes/RASA11.scad>;
  
 module mount_base(){
     
@@ -267,7 +267,7 @@ polygon(points=[
     
     
     }  
-  
+ 
 module holder(){
     
  
@@ -277,15 +277,15 @@ module holder(){
     difference(){
     polygon(points=[
     [base_tube_dimeter/2,0],
-    [wing_wall_top_width/2,base_tube_length*cos(base_hole_cylinder_angle)],
-    [-wing_wall_top_width/2,base_tube_length*cos(base_hole_cylinder_angle)],
+    [wing_wall_top_width/2,wing_height*cos(base_hole_cylinder_angle)],
+    [-wing_wall_top_width/2,wing_height*cos(base_hole_cylinder_angle)],
     [-1*base_tube_dimeter/2,0]
     ]);
         //去掉下面的圆面
     circle(d=base_tube_dimeter);
         }
     
-    translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
+    translate([0,wing_height*cos(base_hole_cylinder_angle)])
     circle(d=160);
    }
    
@@ -297,7 +297,7 @@ XRU8022_cross_roller_bearing();
           color("silver")
       translate([0,0,-40]){
    linear_extrude(20){
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
+           translate([0,wing_height*cos(base_hole_cylinder_angle)])
     circle(d=100);
 
    }}
@@ -314,54 +314,77 @@ XRU8022_cross_roller_bearing();
  */     
              translate([0,0,-40+10]){
  
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle),-10]) 
-          rotate([180,0,-1*tail_for_telescope_angle])
+           translate([0,wing_height*cos(base_hole_cylinder_angle),-10]) 
+          rotate([180,0,-1*tail_for_telescope_angle+180-rasa_array_angel])
            2047studio_dovetail_dule_saddle(195,2);
           }
           }
     }
+ 
 
 module holder_with_motor(){
+    
+        translate([0,0,0]){
+    //叉臂上的
+    translate([28,0,wing_height])
+    rotate([0,0,0]){
+    color("grey")
+    csf_25_100_2uh();
+        }
+
+
+    translate([180/2+20,5,wing_height-86/2]){
+    color("black")
+        rotate([0,0,180])
+    86cme85_180();
+        }
+ 
+    translate([-12,0,wing_height])
+    rotate([0,90,0])
+    color("blue")
+    XRU8022_cross_roller_bearing();
+    }
 
     rotate([90,0,90]){
-                color("silver")
+
     linear_extrude(wing_thickness){
     difference(){
     polygon(points=[
     [base_tube_dimeter/2,0],
-    [wing_wall_top_width/2,base_tube_length*cos(base_hole_cylinder_angle)],
-    [-wing_wall_top_width/2,base_tube_length*cos(base_hole_cylinder_angle)],
+    [wing_wall_top_width/2,wing_height*cos(base_hole_cylinder_angle)],
+    [-wing_wall_top_width/2,wing_height*cos(base_hole_cylinder_angle)],
     [-1*base_tube_dimeter/2,0]
     ]);
         //去掉下面的圆面
     circle(d=base_tube_dimeter);
         }
     
-    translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    color("red")
+    translate([0,wing_height*cos(base_hole_cylinder_angle)])
     circle(d=wing_wall_top_width);
    }
-  /* 
-    color("silver")
-   translate([0,0,30-2]){
-   linear_extrude(5){
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    circle(d=wing_wall_top_width);
+   
+    //用于支撑电机的圆板
+    translate([0,0,30+20+5]){
+    linear_extrude(wing_thickness)
+       translate([0,wing_height*cos(base_hole_cylinder_angle)])
+        circle(d=wing_wall_top_width); 
+                            }
+    //用于支撑电机的螺丝
+ 
+    linear_extrude(60)
+       translate([0,wing_height*cos(base_hole_cylinder_angle)])
+        {
+            for(i=[0:1:5])
+                rotate([0,0,60*i])
+                    translate([wing_wall_top_width/2-10,0,0])
+                        circle(d=8); }
 
-   }}
 
-       color("silver")
-   translate([0,0,-40]){
-   linear_extrude(20){
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
-    circle(d=200);
 
-   }}
-  */ 
        color("silver")
       translate([0,0,-50+10]){
    linear_extrude(20){
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle)])
+           translate([0,wing_height*cos(base_hole_cylinder_angle)])
     circle(d=100);
 
    }}
@@ -369,8 +392,8 @@ module holder_with_motor(){
    
       translate([0,0,-40+10]){
  
-           translate([0,base_tube_length*cos(base_hole_cylinder_angle),-10]) 
-          rotate([180,0,-1*tail_for_telescope_angle])
+           translate([0,wing_height*cos(base_hole_cylinder_angle),-10]) 
+          rotate([180,0,-1*tail_for_telescope_angle+180-rasa_array_angel])
            2047studio_dovetail_dule_saddle(195,2);
           }
    
@@ -446,9 +469,81 @@ linear_extrude(tail_for_telescope_length)
  }
  
  
- module rasa14(){
-    cylinder(h=1100,d=500);
+ module rasa11(){
+    cylinder(h=900,d=330);
+     translate([0,0,900])
+        cylinder(h=150,d=90);
     }
+
+
+ module rasa11_array(){
+    
+    rotate([0,0,rasa_array_angel]){
+         translate([-300,330/2+10,330/2+10])
+        rotate([0,90,0]){
+            translate([0,0,700])
+            rotate([0,0,90])
+            RASA11();
+            
+            /*    cylinder(h=900,d=330);
+                translate([0,0,900])
+                cylinder(h=150,d=90);
+            */
+            }
+
+         translate([-300,330/2+10,-330/2-10])
+        rotate([0,90,0]){
+            translate([0,0,700])
+                        rotate([0,0,90])
+            RASA11();
+            }
+
+
+         translate([-300,-330/2-10,330/2+10])
+        rotate([0,90,0]){
+            translate([0,0,700])
+                        rotate([0,0,90])
+            RASA11();
+            }
+
+         translate([-300,-330/2-10,-330/2-10])
+        rotate([0,90,0]){
+            translate([0,0,700])
+                        rotate([0,0,90])
+            RASA11();
+            }
+            } 
+   
+   /*  
+     rotate([0,0,90-rasa_array_angel]){
+         translate([-500,330/2+10,330/2+10])
+        rotate([0,90,0]){
+                cylinder(h=900,d=330);
+                translate([0,0,900])
+                cylinder(h=150,d=90);}
+
+         translate([-500,330/2+10,-330/2-10])
+        rotate([0,90,0]){
+                cylinder(h=900,d=330);
+                translate([0,0,900])
+                cylinder(h=150,d=90);}
+
+
+         translate([-500,-330/2-10,330/2+10])
+        rotate([0,90,0]){
+                cylinder(h=900,d=330);
+                translate([0,0,900])
+                cylinder(h=150,d=90);}
+
+         translate([-500,-330/2-10,-330/2-10])
+        rotate([0,90,0]){
+                cylinder(h=900,d=330);
+                translate([0,0,900])
+                cylinder(h=150,d=90);}
+            }
+            */
+     
+     }
     
     
 //交叉轴承
@@ -512,41 +607,63 @@ cylinder(h=49,d=67,center=true);
 }
      }
      
-     
- 
+
+
         //三脚架
      module tri_mount(){
     
       //固定筒
+    translate([0,0,250-20])
+       cylinder(h=20,d=base_tube_dimeter);  
+         
+             translate([0,0,250-60])
+         color("grey")
+       cylinder(h=15,d=base_tube_dimeter);  
+         
+    translate([0,0,0])
+         color("grey")
+       cylinder(h=20,d=base_tube_dimeter);  
 
-        
-
-    color("grey",alpha=0.5)
-    difference(){
-    cylinder(h=250,d=base_tube_dimeter);
-    translate([0,0,-5])
-    cylinder(h=250,d=base_tube_dimeter-base_tube_thickness*2);}
+    //固定动螺丝
+                 for(i=[0:1:2])
+        {rotate([0,0,i*120+30+60])
+         translate([base_tube_dimeter/2-20,0,250/2])
+         cylinder(h=250,d=20,center=true);}
                
     //三脚架
         for(i=[0:1:2])
         {rotate([0,0,i*120+30])
 
         translate([base_tube_dimeter/2,5,0])
-        rotate([90,0,0])
-        linear_extrude(40)
+        rotate([90,0,0]){
+        linear_extrude(50)
         difference(){
         polygon(points=[
         [0,250],
-        [250/tan(20),0],
+        [250/tan(20),20],
+        [250/tan(20)+50,20],
+        [250/tan(20)+50,0],
         [0,0]
         ]);
+        
+        
         polygon(points=[
-        [10,230],
-        [230/tan(20),10],
+        [20,250-20/tan(20)+20],
+        [250/tan(20)-20/tan(20),20],
         [20,20]
-        ]);}}
+        ]);}
+        
+           translate([250/tan(20)+25,20,25])
+        rotate([90,0,0])
+        color("black")
+        cylinder(h=40,d=20,center=true);
+    }
+        
+        }
  
   
   
     }
+ 
+     
  
