@@ -9,10 +9,10 @@ main_tube_lenght=590;
 main_tube_diameter=300;
 
 //显示
-//RASA11();
+//RASA11(1);
 
 //定义Module
-module RASA11(){
+module RASA11(dovetail_bar){
 
 //摄像头
 translate([0,0,72.8*2])
@@ -70,15 +70,33 @@ cylinder(h=60,d=310);
 cylinder(h=45,r1=main_tube_diameter/2,r2=155);
     }
     
-    
+
+ if(dovetail_bar==1)
+ {       translate([-50,main_tube_diameter/2,-main_tube_lenght-40])
+celestron_losmandy_style_dovetail_bar(main_tube_lenght);}
+        
+        else if(dovetail_bar==2)
+        {
+               mirror([0,1,0])
+    {
+            translate([-50,main_tube_diameter/2,-main_tube_lenght-40])
+celestron_losmandy_style_dovetail_bar(main_tube_lenght);
+        }
+            }
+        
+        
+        
+       else
+        {
     translate([-50,main_tube_diameter/2,-main_tube_lenght-40])
 celestron_losmandy_style_dovetail_bar(main_tube_lenght);
+    
     
     mirror([0,1,0])
     {
             translate([-50,main_tube_diameter/2,-main_tube_lenght-40])
 celestron_losmandy_style_dovetail_bar(main_tube_lenght);
-        }
+        }}
     
    
 //把手

@@ -11,7 +11,7 @@ module mount_base(){
      
 
   difference(){
-              color("red")
+              color("black")
             cylinder(h=base_tube_length,d=base_tube_dimeter,center=true);
               color("grey")
             cylinder(h=base_tube_length+15,d=base_tube_dimeter-2*base_tube_thickness,center=true);
@@ -72,20 +72,25 @@ module mount_base(){
     
             //支架
      rotate([0,0,base_hole_cylinder_angle]){
-     translate([-20-10/2,-base_tube_dimeter/2,-1*wing_move_length])
-         color("grey")
+     translate([-20-10/2,-base_tube_dimeter/2-5,-1*wing_move_length])
+                              color("grey")
+         mirror([0,1,0])
  wing_support();}
   
         //支架镜像
         mirror([0,0,1])
         rotate([0,0,base_hole_cylinder_angle]){
-     translate([-20-10/2,-base_tube_dimeter/2,-1*wing_move_length])
+     translate([-20-10/2,-base_tube_dimeter/2-5,-1*wing_move_length])
                      color("grey")
+            mirror([0,1,0])
  wing_with_motor();}
+ 
+ 
              //支架
      rotate([0,0,-1*base_hole_cylinder_angle]){
      translate([-20-10/2,wing_thickness+base_tube_dimeter/2,-1*wing_move_length])
                   color("grey")
+         
  wing_support();}
                     //支架镜像
     mirror([0,0,1])
@@ -99,9 +104,11 @@ module mount_base(){
 }
 
 
+
+ 
 module wing_with_motor(){
-   rotate([90,90,0])
-linear_extrude(wing_thickness)
+   rotate([90,90,0]){
+linear_extrude(wing_thickness){
  difference()
     {
 polygon(points=[
@@ -113,17 +120,24 @@ polygon(points=[
 [340,400],
 [60,50] 
 ]);
-    //圆形空缺
+    //底部三角形圆形空缺
     translate([130,70]){
-    //circle(d=80);
             polygon(points=[
             [0,0],
             [equilateral_triangle_lenth,0],
             [equilateral_triangle_lenth/2,equilateral_triangle_lenth*cos(45)],
             ]);
     }
+    //底部圆形空缺-大
     translate([320,160])
-    circle(d=180);
+        circle(d=180);
+
+    //底部圆形空缺-小
+    translate([320+105,160+100])
+        circle(d=80); 
+    
+    //上部三角形
+    
    
     //滑动安装孔
     translate([20+60,20])
@@ -148,17 +162,14 @@ polygon(points=[
 
  
 
-     //横向固定孔
-    
-            
-        translate([10+100,50+100])
+     //近端-横向固定孔        
+                union(){
+        translate([10+100+50+10,50+100+10])
+        circle(d=10);  
+        translate([10+100+130,50+100+100])
         circle(d=10); 
-            
-        translate([10+100+100,50+100+100])
-        circle(d=10); 
-    
-        translate([10+100+100+100,50+100+100+100])
-        circle(d=10); 
+        translate([10+100+100+100+10,50+100+100+100])
+        circle(d=10); }
 
     //远端竖向孔
   
@@ -175,18 +186,125 @@ polygon(points=[
         circle(d=10);   
   
          translate([500-600*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+600*cos(atan((500-340-80)/(850-160)))])
-        circle(d=10);                 
+        circle(d=10);         
+
+
+//三角形漏洞组
+         union()
+         {
+         //近端从下数第一个三角形
+         translate([340+5+5+10+10,400+10+10/5+100+10,0])
+        rotate([0,0,270])
+        color("blue")
+                        polygon(points=[
+                    [0,0],
+                    [100,0],
+                    [50,100*cos(45)],
+                    ]);
+                    
+         //远端从下数第一个三角形
+         translate([340+5+5+10+10+60,400+10+10/5-100+10,0])
+        rotate([0,0,90])
+        color("green")
+                        polygon(points=[
+                    [0,-10],
+                    [100,0],
+                    [0,30+100*cos(45)],
+                    ]);
+                    
+          //近端从下数第二个三角形
+         translate([340+5+5+10+10,400+10+10/5+2*equilateral_triangle_lenth+10+20,0])
+        rotate([0,0,270])
+        color("red")
+                        polygon(points=[
+                    [0,0],
+                    [100,0],
+                    [50,80*cos(45)],
+                    ]);
+          
+         //远端从下数第二个三角形
+         translate([340+5+5+10+10+70,400+10+10/5+60+10,0])
+        rotate([0,0,90])
+        color("red")
+                        polygon(points=[
+                    [0,-5],
+                    [100,10],
+                    [50,90*cos(45)],
+                    ]);
+                  
+                  
+          //近端从下数第三个三角形
+         translate([340+5+5+10+10,400+10+10/5+2*100+120+10+20,0])
+        rotate([0,0,270])
+        color("blue")
+                        polygon(points=[
+                    [0,0],
+                    [100,0],
+                    [50,70*cos(45)],
+                    ]);
+                    
+           //远从下数第三个三角形
+         translate([340+5+5+10+10+50,400+10+10/5+150+10+20,0])
+        rotate([0,0,90])
+        color("blue")
+                        polygon(points=[
+                    [20,0],
+                    [100,5],
+                    [60,60*cos(45)],
+                    ]);}
+
                 
  
    }
+   
+   }
     
-    
+   
+  
+        //近端-横向固定孔-支架
+                union(){
+        translate([10+100+50+10,50+100+10,-5])
+            linear_extrude(130)
+            circle(d=10);  
+        translate([10+100+130,50+100+100,-5])
+            linear_extrude(130)
+            circle(d=20); 
+        translate([10+100+100+100+10,50+100+100+100,-5])
+            linear_extrude(130)
+            circle(d=10); }
+        
+   
+       //远端竖向孔-支架
+  union(){
+    translate([500-15-20,160-20,-5])
+      linear_extrude(130)
+        circle(d=20); 
+                
+    translate([500-150*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+150*cos(atan((500-340-80)/(850-160))),-5])
+      linear_extrude(125)
+        circle(d=10);   
+  
+      translate([500-300*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+300*cos(atan((500-340-80)/(850-160))),-5])
+      linear_extrude(120)
+        circle(d=10);  
+ 
+       translate([500-450*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+450*cos(atan((500-340-80)/(850-160))),-5])
+      linear_extrude(110)
+        circle(d=10);   
+  
+         translate([500-600*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+600*cos(atan((500-340-80)/(850-160))),-5])
+      linear_extrude(100)
+        circle(d=10);          }    
+   
+   
     }
   
-
+}
+ 
+ 
 module wing_support(){
-   rotate([90,90,0])
-linear_extrude(wing_thickness)
+   rotate([90,90,0]){
+linear_extrude(wing_thickness){
  difference()
     {
 polygon(points=[
@@ -198,17 +316,21 @@ polygon(points=[
 [340,400],
 [60,50] 
 ]);
-    //圆形空缺
+    //底部三角形圆形空缺
     translate([130,70]){
-    //circle(d=80);
             polygon(points=[
             [0,0],
             [equilateral_triangle_lenth,0],
             [equilateral_triangle_lenth/2,equilateral_triangle_lenth*cos(45)],
             ]);
     }
+    //底部圆形空缺-大
     translate([320,160])
-    circle(d=180);
+        circle(d=180);
+
+    //底部圆形空缺-小
+    translate([320+105,160+100])
+        circle(d=80); 
    
     //滑动安装孔
     translate([20+60,20])
@@ -233,20 +355,17 @@ polygon(points=[
 
  
 
-     //横向固定孔
-    
-            
-        translate([10+100,50+100])
+     //近端横向固定孔
+        union(){
+        translate([10+100+50+10,50+100+10])
+        circle(d=10);  
+        translate([10+100+130,50+100+100])
         circle(d=10); 
-            
-        translate([10+100+100,50+100+100])
-        circle(d=10); 
-    
-        translate([10+100+100+100,50+100+100+100])
-        circle(d=10); 
+        translate([10+100+100+100+10,50+100+100+100])
+        circle(d=10); }
 
     //远端竖向孔
-  
+    union(){
     translate([500-15-20,160-20])
         circle(d=10); 
                 
@@ -260,13 +379,127 @@ polygon(points=[
         circle(d=10);   
   
          translate([500-600*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+600*cos(atan((500-340-80)/(850-160)))])
-        circle(d=10);                 
-                
+        circle(d=10);}            
+       
+
+
+//三角形漏洞组
+         union()
+         {
+         //近端从下数第一个三角形
+         translate([340+5+5+10+10,400+10+10/5+100+10,0])
+        rotate([0,0,270])
+        color("blue")
+                        polygon(points=[
+                    [0,0],
+                    [100,0],
+                    [50,100*cos(45)],
+                    ]);
+                    
+         //远端从下数第一个三角形
+         translate([340+5+5+10+10+60,400+10+10/5-100+10,0])
+        rotate([0,0,90])
+        color("green")
+                        polygon(points=[
+                    [0,-10],
+                    [100,0],
+                    [0,30+100*cos(45)],
+                    ]);
+                    
+          //近端从下数第二个三角形
+         translate([340+5+5+10+10,400+10+10/5+2*equilateral_triangle_lenth+10+20,0])
+        rotate([0,0,270])
+        color("red")
+                        polygon(points=[
+                    [0,0],
+                    [100,0],
+                    [50,80*cos(45)],
+                    ]);
+          
+         //远端从下数第二个三角形
+         translate([340+5+5+10+10+70,400+10+10/5+60+10,0])
+        rotate([0,0,90])
+        color("red")
+                        polygon(points=[
+                    [0,-5],
+                    [100,10],
+                    [50,90*cos(45)],
+                    ]);
+                  
+                  
+          //近端从下数第三个三角形
+         translate([340+5+5+10+10,400+10+10/5+2*100+120+10+20,0])
+        rotate([0,0,270])
+        color("blue")
+                        polygon(points=[
+                    [0,0],
+                    [100,0],
+                    [50,70*cos(45)],
+                    ]);
+                    
+           //远从下数第三个三角形
+         translate([340+5+5+10+10+50,400+10+10/5+150+10+20,0])
+        rotate([0,0,90])
+        color("blue")
+                        polygon(points=[
+                    [20,0],
+                    [100,5],
+                    [60,60*cos(45)],
+                    ]);}        
  
    }
     
+   
+   
+   }
+   
+   
+   
+   
+        //近端横向固定孔-支架
+        union(){
+        translate([10+100+50+10,50+100+10,-5])
+            linear_extrude(130)
+            circle(d=10);  
+        translate([10+100+130,50+100+100,-5])
+            linear_extrude(130)
+            circle(d=20); 
+        translate([10+100+100+100+10,50+100+100+100,-5])
+            linear_extrude(130)
+            circle(d=10); }
+        
+   
+       //远端竖向孔-支架
+  
+    union(){
+    translate([500-15-20,160-20,-5])
+                linear_extrude(130)
+        circle(d=20); 
+                
+    translate([500-150*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+150*cos(atan((500-340-80)/(850-160))),-5])
+ 
+        linear_extrude(125)
+        circle(d=10);   
+  
+      translate([500-300*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+300*cos(atan((500-340-80)/(850-160))),-5])
+ 
+        linear_extrude(120)
+        circle(d=10);  
+ 
+       translate([500-450*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+450*cos(atan((500-340-80)/(850-160))),-5])
+ 
+        linear_extrude(110)
+        circle(d=10);   
+  
+         translate([500-600*sin(atan((500-340-80)/(850-160)))-10*cos(atan((500-340-80)/(850-160))),160+600*cos(atan((500-340-80)/(850-160))),-5])
+ 
+        linear_extrude(100)
+        circle(d=10);}  
+   
+   }
     
     }  
+ 
  
 module holder(){
     
@@ -283,6 +516,69 @@ module holder(){
     ]);
         //去掉下面的圆面
     circle(d=base_tube_dimeter);
+         //新增的圆形漏洞
+          translate([0,base_tube_dimeter])
+            circle(d=base_tube_dimeter*0.6);   
+          translate([0,base_tube_dimeter*1.8])
+            circle(d=base_tube_dimeter*0.5);   
+          translate([0,base_tube_dimeter*2.5])
+            circle(d=base_tube_dimeter*0.4); 
+        
+        //新增的三角形漏洞
+           translate([-90,120,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [80*sin(60),30],
+              [2,80],
+           ]);
+           
+           mirror([1,0,0])
+              translate([-90,120,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [80*sin(60),30],
+              [2,80],
+           ]);
+           
+           
+              translate([-80,320,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [70*sin(60),40],
+              [2,80],
+           ]);
+           
+           mirror([1,0,0])
+                 translate([-80,320,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [70*sin(60),40],
+              [2,80],
+           ]);
+           
+           
+                 translate([-70,510,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [60*sin(60),40],
+              [2,80],
+           ]);
+           
+           mirror([1,0,0])
+                    translate([-70,510,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [60*sin(60),40],
+              [2,80],
+           ]);   
+        
+        
         }
     
     translate([0,wing_height*cos(base_hole_cylinder_angle)])
@@ -347,6 +643,7 @@ module holder_with_motor(){
 
     rotate([90,0,90]){
 
+//竖立面-开始
     linear_extrude(wing_thickness){
     difference(){
     polygon(points=[
@@ -357,11 +654,77 @@ module holder_with_motor(){
     ]);
         //去掉下面的圆面
     circle(d=base_tube_dimeter);
+        
+         //新增的圆形漏洞
+          translate([0,base_tube_dimeter])
+            circle(d=base_tube_dimeter*0.6);   
+          translate([0,base_tube_dimeter*1.8])
+            circle(d=base_tube_dimeter*0.5);   
+          translate([0,base_tube_dimeter*2.5])
+            circle(d=base_tube_dimeter*0.4); 
+        
+        //新增的三角形漏洞
+           translate([-90,120,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [80*sin(60),30],
+              [2,80],
+           ]);
+           
+           mirror([1,0,0])
+              translate([-90,120,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [80*sin(60),30],
+              [2,80],
+           ]);
+           
+           
+              translate([-80,320,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [70*sin(60),40],
+              [2,80],
+           ]);
+           
+           mirror([1,0,0])
+                 translate([-80,320,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [70*sin(60),40],
+              [2,80],
+           ]);
+           
+           
+                 translate([-70,510,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [60*sin(60),40],
+              [2,80],
+           ]);
+           
+           mirror([1,0,0])
+                    translate([-70,510,0])
+           color("red")
+           polygon(points=[
+           [0,0],
+           [60*sin(60),40],
+              [2,80],
+           ]);   
+        
         }
     
     translate([0,wing_height*cos(base_hole_cylinder_angle)])
     circle(d=wing_wall_top_width);
    }
+   
+//竖立面-结束   
+   
    
     //用于支撑电机的圆板
     translate([0,0,30+20+5]){
@@ -397,7 +760,7 @@ module holder_with_motor(){
            2047studio_dovetail_dule_saddle(195,2);
           }
    
-              
+           
    
    
        }
@@ -468,22 +831,34 @@ linear_extrude(tail_for_telescope_length)
  
  }
  
- 
+ /*
  module rasa11(){
     cylinder(h=900,d=330);
      translate([0,0,900])
         cylinder(h=150,d=90);
     }
-
+ */
 
  module rasa11_array(){
     
-    rotate([0,0,rasa_array_angel]){
-         translate([-300,330/2+10,330/2+10])
+    rotate([90,0,rasa_array_angel]){
+        
+        color("grey"){
+         cube([140,700,40],center=true);
+            translate([0,350,0])
+                cube([240,20,100],center=true);
+            translate([0,175,0])
+                cube([240,100,100],center=true);
+            translate([0,-175,0])
+                cube([240,100,100],center=true);
+            translate([0,-350,0])
+                cube([240,20,100],center=true);}
+        
+         translate([-300,330/2+10,330/2+10+50])
         rotate([0,90,0]){
             translate([0,0,700])
             rotate([0,0,90])
-            RASA11();
+            RASA11(2);
             
             /*    cylinder(h=900,d=330);
                 translate([0,0,900])
@@ -491,26 +866,26 @@ linear_extrude(tail_for_telescope_length)
             */
             }
 
-         translate([-300,330/2+10,-330/2-10])
+         translate([-300,330/2+10,-330/2-10-50])
         rotate([0,90,0]){
             translate([0,0,700])
                         rotate([0,0,90])
-            RASA11();
+            RASA11(1);
             }
 
 
-         translate([-300,-330/2-10,330/2+10])
+         translate([-300,-330/2-10,330/2+10+50])
         rotate([0,90,0]){
             translate([0,0,700])
                         rotate([0,0,90])
-            RASA11();
+            RASA11(2);
             }
 
-         translate([-300,-330/2-10,-330/2-10])
+         translate([-300,-330/2-10,-330/2-10-50])
         rotate([0,90,0]){
             translate([0,0,700])
                         rotate([0,0,90])
-            RASA11();
+            RASA11(1);
             }
             } 
    
@@ -607,8 +982,7 @@ cylinder(h=49,d=67,center=true);
 }
      }
      
-
-
+ 
         //三脚架
      module tri_mount(){
     
@@ -636,7 +1010,7 @@ cylinder(h=49,d=67,center=true);
 
         translate([base_tube_dimeter/2,5,0])
         rotate([90,0,0]){
-        linear_extrude(50)
+        linear_extrude(50){
         difference(){
         polygon(points=[
         [0,250],
@@ -652,6 +1026,25 @@ cylinder(h=49,d=67,center=true);
         [250/tan(20)-20/tan(20),20],
         [20,20]
         ]);}
+        
+        
+                //制作横杆
+        rotate([0,0,-60])
+        translate([0,140+10*tan(60)])
+        color("red")
+        square([20,280],center=true);
+
+    translate([500,0])
+    mirror([1,0,0])
+{
+            rotate([0,0,-60])
+        translate([0,140+10*tan(60)])
+        color("red")
+        square([20,280],center=true);
+    
+    }
+        
+        }
         
            translate([250/tan(20)+25,20,25])
         rotate([90,0,0])

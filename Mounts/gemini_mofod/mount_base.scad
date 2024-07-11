@@ -13,36 +13,17 @@ include <modules.scad>;
     //旋转底座
      rotate([0,270,0]){
      mount_base();
+
+
+
+ 
  
  //RASA整列   
 
 translate([wing_height,0,0])
 rasa11_array();
 
-/*
-         translate([0,330/2+10,330/2+10])
-        translate([300,0,0])
-        rotate([0,90,0])
-
-        rasa11(); 
-
-         translate([0,330/2+10,-330/2-10])
-        translate([300,0,0])
-        rotate([0,90,0])
-        rasa11(); 
-
-
-         translate([0,-330/2-10,330/2+10])
-        translate([300,0,0])
-        rotate([0,90,0])
-        rasa11(); 
-
-         translate([0,-330/2-10,-330/2-10])
-        translate([300,0,0])
-        rotate([0,90,0])
-        rasa11(); 
-
-*/
+ 
 
  //RASA整列   
     
@@ -83,6 +64,7 @@ rasa11_array();
 
  
     translate([0,0,-155-95+5-50]) 
+        color("grey")
         tri_mount();
   
        
