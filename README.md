@@ -2,3 +2,6 @@
 # OpenSCAD files for amateur astronomy observation devices.
 
 ![Dual Setup](main.png)
+
+
+![Dual Setup](/Mounts/gemini_mofod/mount_base3.png)
