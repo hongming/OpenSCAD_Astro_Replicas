@@ -124,8 +124,8 @@ polygon(points=[
     translate([130,70]){
             polygon(points=[
             [0,0],
-            [equilateral_triangle_lenth,0],
-            [equilateral_triangle_lenth/2,equilateral_triangle_lenth*cos(45)],
+            [equilateral_triangle_length,0],
+            [equilateral_triangle_length/2,equilateral_triangle_length*cos(45)],
             ]);
     }
     //底部圆形空缺-大
@@ -213,7 +213,7 @@ polygon(points=[
                     ]);
                     
           //近端从下数第二个三角形
-         translate([340+5+5+10+10,400+10+10/5+2*equilateral_triangle_lenth+10+20,0])
+         translate([340+5+5+10+10,400+10+10/5+2*equilateral_triangle_length+10+20,0])
         rotate([0,0,270])
         color("red")
                         polygon(points=[
@@ -320,8 +320,8 @@ polygon(points=[
     translate([130,70]){
             polygon(points=[
             [0,0],
-            [equilateral_triangle_lenth,0],
-            [equilateral_triangle_lenth/2,equilateral_triangle_lenth*cos(45)],
+            [equilateral_triangle_length,0],
+            [equilateral_triangle_length/2,equilateral_triangle_length*cos(45)],
             ]);
     }
     //底部圆形空缺-大
@@ -407,7 +407,7 @@ polygon(points=[
                     ]);
                     
           //近端从下数第二个三角形
-         translate([340+5+5+10+10,400+10+10/5+2*equilateral_triangle_lenth+10+20,0])
+         translate([340+5+5+10+10,400+10+10/5+2*equilateral_triangle_length+10+20,0])
         rotate([0,0,270])
         color("red")
                         polygon(points=[
@@ -611,7 +611,7 @@ XRU8022_cross_roller_bearing();
              translate([0,0,-40+10]){
  
            translate([0,wing_height*cos(base_hole_cylinder_angle),-10]) 
-          rotate([180,0,-1*tail_for_telescope_angle+180-rasa_array_angel])
+          rotate([180,0,-1*tail_for_telescope_angle+180-rasa_array_angle])
            2047studio_dovetail_dule_saddle(195,2);
           }
           }
@@ -756,7 +756,7 @@ module holder_with_motor(){
       translate([0,0,-40+10]){
  
            translate([0,wing_height*cos(base_hole_cylinder_angle),-10]) 
-          rotate([180,0,-1*tail_for_telescope_angle+180-rasa_array_angel])
+          rotate([180,0,-1*tail_for_telescope_angle+180-rasa_array_angle])
            2047studio_dovetail_dule_saddle(195,2);
           }
    
@@ -841,7 +841,7 @@ linear_extrude(tail_for_telescope_length)
 
  module rasa11_array(){
     
-    rotate([90,0,rasa_array_angel]){
+    rotate([90,0,90-rasa_array_angle]){
         
         color("grey"){
          cube([140,700,40],center=true);
@@ -888,36 +888,6 @@ linear_extrude(tail_for_telescope_length)
             RASA11(1);
             }
             } 
-   
-   /*  
-     rotate([0,0,90-rasa_array_angel]){
-         translate([-500,330/2+10,330/2+10])
-        rotate([0,90,0]){
-                cylinder(h=900,d=330);
-                translate([0,0,900])
-                cylinder(h=150,d=90);}
-
-         translate([-500,330/2+10,-330/2-10])
-        rotate([0,90,0]){
-                cylinder(h=900,d=330);
-                translate([0,0,900])
-                cylinder(h=150,d=90);}
-
-
-         translate([-500,-330/2-10,330/2+10])
-        rotate([0,90,0]){
-                cylinder(h=900,d=330);
-                translate([0,0,900])
-                cylinder(h=150,d=90);}
-
-         translate([-500,-330/2-10,-330/2-10])
-        rotate([0,90,0]){
-                cylinder(h=900,d=330);
-                translate([0,0,900])
-                cylinder(h=150,d=90);}
-            }
-            */
-     
      }
     
     
