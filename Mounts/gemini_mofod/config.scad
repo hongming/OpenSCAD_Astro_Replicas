@@ -1,6 +1,6 @@
 // 底座
 base_tube_length = 850;
-base_tube_dimeter = 254;
+base_tube_dimeter = 250;
 base_tube_thickness = 5;
 // base_tube_thickness = 20; // 3D打印专用
 base_hole_cube_up_length = 500;
