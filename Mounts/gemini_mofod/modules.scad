@@ -263,6 +263,7 @@ module wing_support(wing_support_hole,wing_surpport_fixed_rod) {
         }}  
  
 
+
 //立面支撑
 module holder(holder_hole) {
     rotate([90, 0, 90]) {
